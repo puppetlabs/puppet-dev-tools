@@ -1,8 +1,4 @@
-FROM alpine
+FROM centos:7
 
-RUN apk update && apk add ruby ruby-dev alpine-sdk && \
-    gem install --no-rdoc --no-ri bigdecimal \
-      etc \
-      io-console \
-      pdk \
-      onceover
+RUN yum makecache&& yum install -y ruby ruby-dev build-essentials && \
+    rpm -i https://pm.puppet.com/cgi-bin/pdk_download.cgi?arch=x86_64\&dist=el\&rel=7\&ver=latest
