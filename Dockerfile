@@ -1,40 +1,54 @@
-FROM centos:7
+FROM ruby:2.4.4-alpine
 
-ENV RUBY_MAJOR 2.4
-ENV RUBY_VERSION 2.4.1
-ENV BUNDLER_VERSION 1.15.4
-ENV RUBYGEMS_VERSION 2.6.13
-
-RUN yum makecache \
-    && yum install -y \
+RUN apk update && apk add \
       git \
       make \
       gcc \
-      gcc-c++ \
+      g++ \
       autoconf \
       automake \
       patch \
       readline \
-      readline-devel \
+      readline-dev \
       zlib \
-      zlib-devel \
-      libyaml-devel \
-      libffi-devel \
-      openssl-devel \
-    && rpm -i https://pm.puppet.com/cgi-bin/pdk_download.cgi?arch=x86_64\&dist=el\&rel=7\&ver=latest
+      zlib-dev \
+      libffi-dev \
+      openssl-dev \
+      libgcc \
+      bash \
+      wget \
+      curl \
+      ca-certificates
 
-
-RUN curl -O https://cache.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.gz \
-    && tar xzf ruby-$RUBY_VERSION.tar.gz -C /usr/src \
-    && cd /usr/src/ruby-$RUBY_VERSION \
-    && CFLAGS="-O3 -fPIC -fno-strict-aliasing" ./configure --disable-install-doc --enable-shared --enable-pthread \
-    && make \
-    && make install \
-    && cd / \
-    && rm -rf /usr/src/ruby-$RUBY_VERSION \
-    && rm -rf /ruby-$RUBY_VERSION.tar.gz
+# Support for the CD for PE agent
+RUN adduser distelli -D
+ENV GOSU_VERSION 1.10
+RUN set -ex; \
+	\
+	apk add --no-cache --virtual .gosu-deps \
+		dpkg \
+		gnupg \
+		openssl \
+	; \
+	\
+	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
+	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
+	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
+	\
+  # verify the signature
+	export GNUPGHOME="$(mktemp -d)"; \
+	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
+	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
+	rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+	\
+	chmod +x /usr/local/bin/gosu; \
+  # verify that the binary works
+	gosu nobody true; \
+	\
+	apk del .gosu-deps
 
 RUN gem install --no-ri --no-rdoc r10k \
+      pdk \
       puppet \
       puppetlabs_spec_helper \
       puppet-lint \
