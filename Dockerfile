@@ -17,11 +17,36 @@ RUN apk update && apk add \
       libgcc \
       bash \
       wget \
-      curl \
       ca-certificates
 
-# Support for the CD for PE agent
+RUN gem install --no-ri --no-rdoc r10k \
+      pdk \
+      puppet \
+      puppetlabs_spec_helper \
+      puppet-lint \
+      onceover \
+      rest-client
+
+COPY Rakefile /Rakefile
+
+RUN mkdir -p /repo
+WORKDIR /repo
+
+
+# CD for PE agent requirements
+#   Compile an older version of curl for support for the Distelli agent
+ENV CURL_VERSION 7.55.0
+RUN wget https://curl.haxx.se/download/curl-$CURL_VERSION.tar.gz \
+    && tar -xzf curl-$CURL_VERSION.tar.gz \
+    && cd curl-$CURL_VERSION \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /curl-$CURL_VERSION.tar.gz /curl-$CURL_VERSION
+
+#   Support for the CD for PE agent
 RUN adduser distelli -D
+#   Add gosu for CD for PE agent installation uid changes
 ENV GOSU_VERSION 1.10
 RUN set -ex; \
 	\
@@ -39,23 +64,11 @@ RUN set -ex; \
 	export GNUPGHOME="$(mktemp -d)"; \
 	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
 	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-	rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc; \
+	rm -fr "$GNUPGHOME" /usr/local/bin/gosu.asc; \
 	\
 	chmod +x /usr/local/bin/gosu; \
   # verify that the binary works
 	gosu nobody true; \
 	\
 	apk del .gosu-deps
-
-RUN gem install --no-ri --no-rdoc r10k \
-      pdk \
-      puppet \
-      puppetlabs_spec_helper \
-      puppet-lint \
-      onceover \
-      rest-client
-
-COPY Rakefile /Rakefile
-
-RUN mkdir -p /repo
-WORKDIR /repo
+# End CD for PE agent requirements
