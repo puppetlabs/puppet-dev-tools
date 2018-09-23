@@ -21,7 +21,7 @@ RUN apk update && apk add \
 
 RUN gem install --no-ri --no-rdoc r10k \
     pdk \
-    puppet \
+    puppet:5.3.3 \
     puppetlabs_spec_helper \
     puppet-lint \
     onceover \
