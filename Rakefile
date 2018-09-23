@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppetlabs_spec_helper/rake_tasks'
-#require 'ra10ke'
+require 'ra10ke'
 require 'r10k/puppetfile'
 require 'erb'
 require 'json'
