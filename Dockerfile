@@ -22,12 +22,18 @@ RUN apk update && apk add \
 RUN gem install --no-ri --no-rdoc r10k \
     pdk \
     puppet:5.3.3 \
-    ra10ke \
     rubocop \
     puppetlabs_spec_helper \
     puppet-lint \
     onceover \
     rest-client
+
+## Install ra10ke from source until https://github.com/voxpupuli/ra10ke/issues/28
+## is released
+RUN git clone https://github.com/voxpupuli/ra10ke.git /tmp/ra10ke\
+    && cd /tmp/ra10ke \
+    && gem build ra10ke.gemspec \
+    && gem install ra10ke-0.4.0.gem
 
 COPY Rakefile /Rakefile
 
