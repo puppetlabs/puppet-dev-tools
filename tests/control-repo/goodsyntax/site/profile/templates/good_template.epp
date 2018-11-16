@@ -1,0 +1,4 @@
+This file is a template with no bad syntax on the next line
+<%= $variable %>
+It should not fail
+
