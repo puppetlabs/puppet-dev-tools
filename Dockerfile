@@ -5,6 +5,7 @@ RUN apk update && apk add \
     make \
     gcc \
     g++ \
+    openssh-client \
     autoconf \
     automake \
     patch \
