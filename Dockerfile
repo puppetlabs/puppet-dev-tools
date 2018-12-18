@@ -21,13 +21,14 @@ RUN apk update && apk add \
     ca-certificates
 
 RUN gem install --no-ri --no-rdoc r10k \
-    pdk \
-    puppet:5.3.3 \
-    rubocop \
-    puppetlabs_spec_helper \
-    puppet-lint \
-    onceover \
-    rest-client
+      pdk \
+      puppet:5.3.3 \
+      rubocop \
+      puppetlabs_spec_helper \
+      puppet-lint \
+      onceover \
+      rest-client \
+    && ln -s /usr/local/bundle/bin/* /usr/local/bin/
 
 ## Install ra10ke from source until https://github.com/voxpupuli/ra10ke/issues/28
 ## is released
