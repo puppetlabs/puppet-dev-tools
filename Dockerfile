@@ -37,13 +37,14 @@ RUN yum install -y centos-release-scl \
 
 # Install dependent gems
 RUN gem install --no-ri --no-rdoc puppet:5.3.3 \
-      r10k \
-      ra10ke \
+      pdk \
+      puppet:5.3.3 \
       rubocop \
       puppetlabs_spec_helper \
       puppet-lint \
       onceover \
-      rest-client
+      rest-client \
+    && ln -s /usr/local/bundle/bin/* /usr/local/bin/
 
 ## Install ra10ke from source until https://github.com/voxpupuli/ra10ke/issues/28
 ## is released
