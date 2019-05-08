@@ -56,7 +56,7 @@ runtest 'Puppetfile with good syntax' "docker run -v `pwd`/control-repo/goodsynt
 runtest 'Templates with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:templates" 1 "Syntax error at '' at site/profile/templates/bad_template.epp:2:23";
 runtest 'Templates with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile syntax:templates" 0 "";
 
-runtest 'Manifests with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:manifests" 1 "Could not parse for environment *root*: Syntax error at 'SYNTAX' at /repo/site/profile/manifests/common.pp:5:12";
+runtest 'Manifests with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:manifests" 1 "Could not parse for environment \*root\*: Syntax error at 'SYNTAX' at /repo/site/profile/manifests/common.pp:5:12";
 runtest 'Manifests with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile syntax:manifests" 0 '';
 
 runtest 'Hiera with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:hiera" 1 "ERROR: Failed to parse data/common.yaml: (data/common.yaml): could not find expected ':' while scanning a simple key at line 4 column 1";
