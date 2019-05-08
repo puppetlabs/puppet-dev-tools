@@ -44,14 +44,8 @@ RUN gem install --no-ri --no-rdoc puppet:5.3.3 \
       puppet-lint \
       onceover \
       rest-client \
+      ra10ke \
     && ln -s /usr/local/bundle/bin/* /usr/local/bin/
-
-## Install ra10ke from source until https://github.com/voxpupuli/ra10ke/issues/28
-## is released
-RUN git clone https://github.com/voxpupuli/ra10ke.git /tmp/ra10ke\
-    && cd /tmp/ra10ke \
-    && gem build ra10ke.gemspec \
-    && gem install ra10ke-0.4.0.gem
 
 COPY Rakefile /Rakefile
 
