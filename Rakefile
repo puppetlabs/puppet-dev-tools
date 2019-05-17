@@ -10,6 +10,7 @@ require 'onceover/rake_tasks'
 
 PuppetSyntax.app_management = true
 PuppetSyntax.exclude_paths = ["site/**/plans/*"]
+PuppetSyntax.exclude_paths = ["site-modules/**/plans/*"]
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
 PuppetLint.configuration.send('disable_140chars')
