@@ -1,0 +1,32 @@
+---
+
+version: 5
+
+hierarchy:
+  - name: "Per-node data"
+    path: "nodes/%{trusted.certname}.yaml"
+
+  - name: "Kubernetes Configurations"
+    path: "kubernetes.yaml"
+
+  - name: "Per-datacenter business group data"
+    path: "datacenter/%{trusted.extensions.pp_datacenter}.yaml"
+
+  - name: "Per-datacenter secret data (encrypted)"
+    lookup_key: eyaml_lookup_key
+    path: "secrets/%{trusted.extensions.pp_datacenter}.eyaml"
+    options:
+      pkcs7_private_key: /etc/puppetlabs/puppet/eyaml/private_key.pkcs7.pem
+      pkcs7_public_key:  /etc/puppetlabs/puppet/eyaml/public_key.pkcs7.pem
+
+  - name: "Per-environment data"
+    path: "environment/%{trusted.extensions.pp_environment}.yaml"
+
+  - name: "Per-OS defaults"
+    path: "os/%{facts.os.family}.yaml"
+
+  - name: "Per-Host defaults"
+    path: "nodes/%{trusted.certname}.yaml"
+
+  - name: "Common data"
+    path: "common.yaml"
