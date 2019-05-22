@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FROM centos:7
 
 # Set up the paths for Ruby
@@ -37,32 +36,8 @@ RUN yum install -y centos-release-scl \
     && yum install -y rh-ruby24 rh-ruby24-ruby-devel
 
 # Install dependent gems
-RUN gem install --no-ri --no-rdoc puppet:5.3.3 \
-=======
-FROM ruby:2.4.4-alpine
-
-RUN apk update && apk add \
-    git \
-    make \
-    gcc \
-    g++ \
-    openssh-client \
-    autoconf \
-    automake \
-    patch \
-    readline \
-    readline-dev \
-    zlib \
-    zlib-dev \
-    libffi-dev \
-    openssl-dev \
-    libgcc \
-    bash \
-    wget \
-    ca-certificates
-
 RUN gem install --no-ri --no-rdoc r10k \
-      pdk \
+      json \
       puppet:5.3.3 \
       rubocop \
       puppetlabs_spec_helper \
