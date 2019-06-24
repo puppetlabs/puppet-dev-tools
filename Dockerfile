@@ -27,12 +27,14 @@ RUN rpm -i https://pm.puppet.com/cgi-bin/pdk_download.cgi?arch=x86_64\&dist=el\&
       libgcc \
       bash \
       wget \
-      ca-certificates
+      ca-certificates \
+    && yum clean all
 
 #Set up Ruby 2.4. Must be separate from Ruby installed with PDK
 RUN yum install -y centos-release-scl \
     && yum-config-manager --enable rhel-server-rhscl-7-rpms \
-    && yum install -y rh-ruby24 rh-ruby24-ruby-devel rh-git218
+    && yum install -y rh-ruby24 rh-ruby24-ruby-devel rh-git218 \
+    && yum clean all
 
 # Install dependent gems
 RUN gem install --no-ri --no-rdoc r10k \
