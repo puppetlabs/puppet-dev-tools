@@ -28,13 +28,11 @@ RUN rpm -i https://pm.puppet.com/cgi-bin/pdk_download.cgi?arch=x86_64\&dist=el\&
       bash \
       wget \
       ca-certificates \
-    && yum clean all
-
-#Set up Ruby 2.4. Must be separate from Ruby installed with PDK
-RUN yum install -y centos-release-scl \
+      centos-release-scl \
     && yum-config-manager --enable rhel-server-rhscl-7-rpms \
     && yum install -y rh-ruby24 rh-ruby24-ruby-devel rh-git218 \
     && yum clean all
+#Set up Ruby 2.4. Must be separate from Ruby installed with PDK
 
 # Install dependent gems
 RUN gem install --no-ri --no-rdoc r10k \
@@ -45,8 +43,7 @@ RUN gem install --no-ri --no-rdoc r10k \
       puppet-lint \
       onceover \
       rest-client \
-      ra10ke \
-    && ln -s /usr/local/bundle/bin/* /usr/local/bin/
+      ra10ke
 
 COPY Rakefile /Rakefile
 
