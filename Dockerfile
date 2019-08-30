@@ -42,6 +42,7 @@ RUN gem install --no-ri --no-rdoc r10k \
       puppetlabs_spec_helper \
       puppet-lint \
       onceover \
+      onceover-codequality \
       rest-client \
       ra10ke
 
