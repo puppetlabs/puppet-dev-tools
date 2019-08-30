@@ -20,6 +20,9 @@ PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp", "bundle/
 
 Rake::Task[:spec_prep].enhance [:generate_fixtures]
 
+# Pull in the ra10ke rake tasks
+Ra10ke::RakeTask.new
+
 desc "Run tests"
 task :run_tests do
   print "Executing Lint Test...\n"
