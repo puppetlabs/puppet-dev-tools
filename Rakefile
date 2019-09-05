@@ -8,15 +8,22 @@ require 'json'
 require 'rest-client'
 require 'onceover/rake_tasks'
 
+#Use the environment variable EXCLUDE_PATHS, delineated by ':', to know what
+#paths to exclude from syntax and linting checks
+exclude_paths = if ENV['EXCLUDE_PATHS']
+  ENV['EXCLUDE_PATHS'].split(':')
+else
+  ["site/**/plans/*","modules/**/plans/*","site-modules/**/plans/*", "spec/**/*.pp", "pkg/**/*.pp", "bundle/**/*", "vendor/**/*"]
+end
+
+PuppetSyntax.exclude_paths = exclude_paths
 PuppetSyntax.app_management = true
-PuppetSyntax.exclude_paths = ["site/**/plans/*","site-modules/**/plans/*"]
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
 PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_documentation')
-PuppetLint.configuration.ignore_paths = ["spec/**/*.pp", "pkg/**/*.pp", "bundle/**/*", "vendor/**/*"]
-
+PuppetLint.configuration.ignore_paths = exclude_paths
 
 Rake::Task[:spec_prep].enhance [:generate_fixtures]
 
