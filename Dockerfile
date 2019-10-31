@@ -41,6 +41,7 @@ RUN gem install --no-ri --no-rdoc r10k \
       rubocop \
       puppetlabs_spec_helper \
       puppet-lint \
+      puppet-lint-security-plugins \
       onceover \
       onceover-codequality \
       rest-client \
