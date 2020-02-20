@@ -1,29 +1,69 @@
-require 'fileutils'
-require 'puppet-lint/tasks/puppet-lint'
-require 'puppetlabs_spec_helper/rake_tasks'
-require 'ra10ke'
-require 'r10k/puppetfile'
 require 'erb'
+require 'fileutils'
 require 'json'
-require 'rest-client'
 require 'onceover/rake_tasks'
+require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-syntax/tasks/puppet-syntax'
+require 'puppetlabs_spec_helper/rake_tasks'
+require 'r10k/puppetfile'
+require 'ra10ke'
+require 'yamllint/rake_task'
 
 #Use the environment variable EXCLUDE_PATHS, delineated by ':', to know what
 #paths to exclude from syntax and linting checks
 exclude_paths = if ENV['EXCLUDE_PATHS']
   ENV['EXCLUDE_PATHS'].split(':')
 else
-  ["site/**/plans/*","modules/**/plans/*","site-modules/**/plans/*", "spec/**/*.pp", "pkg/**/*.pp", "bundle/**/*", "vendor/**/*"]
+  [
+    ".onceover/**/*",
+    "bundle/**/*",
+    "modules/**/plans/*",
+    "pkg/**/*.pp",
+    "site-modules/**/plans/*",
+    "site/**/plans/*",
+    "site/*/spec/**/*",
+    "spec/**/*.pp",
+    "vendor/**/*",
+  ]
 end
 
-PuppetSyntax.exclude_paths = exclude_paths
-PuppetSyntax.app_management = true
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('relative')
 PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.ignore_paths = exclude_paths
+
+PuppetSyntax.exclude_paths = exclude_paths
+PuppetSyntax.app_management = true
+PuppetSyntax.check_hiera_keys = true
+
+ps_hieradata_paths = [
+  "data/*.yaml",
+  "data/**/*.yaml",
+  "hieradata/**/*.yaml",
+  "hiera*.yaml",
+]
+
+yl_paths = %w(
+  *.yml
+  *.yaml
+  data/*.yaml
+  data/**/*.yaml
+  hieradata/**/*.yml
+  hieradata/**/*.yaml
+)
+
+if File.file?('spec/testing.yaml')
+  ps_hieradata_paths.push('spec/testing.yaml')
+  yl_paths.push('spec/testing.yaml')
+end
+
+PuppetSyntax.hieradata_paths = ps_hieradata_paths
+
+YamlLint::RakeTask.new do |yamllint|
+  yamllint.paths = yl_paths
+end
 
 Rake::Task[:spec_prep].enhance [:generate_fixtures]
 
