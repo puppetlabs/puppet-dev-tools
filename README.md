@@ -1,5 +1,7 @@
 # Puppet Dev Tools
 
+![](https://github.com/puppetlabs/puppet-dev-tools/workflows/Build%20and%20Test/badge.svg)
+
 ## Running
 
 You can use this container by running `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools <command>` where `<command>` is any of the ones listed below.
