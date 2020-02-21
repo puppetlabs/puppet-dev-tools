@@ -14,13 +14,14 @@ RUN apt-get update -qq \
   && rm -rf /var/lib/apt/lists/*
 
 # Install dependent gems
-ADD Gemfile* .
+RUN mkdir /setup
+WORKDIR /setup
+ADD Gemfile* /setup/
 RUN gem install bundler \
   && bundle config set system 'true' \
-  && bundle install --jobs=3 \
-  && rm -f ./Gemfile*
+  && bundle install --jobs=3
 
 COPY Rakefile /Rakefile
 
-RUN mkdir -p /repo
+RUN mkdir /repo
 WORKDIR /repo
