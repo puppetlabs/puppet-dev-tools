@@ -3,10 +3,12 @@ on:
   - push
   - pull_request
 jobs:
-  test:
+  Build-and-Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Build images
+        run: ./build.sh
       - name: Run tests
         run: cd tests; ./run_tests.sh
 

@@ -13,4 +13,3 @@ echo $SHA
 echo -n "Building gosu image..."
 build puppet/puppet-dev-tools:gosu gosu/Dockerfile
 echo $SHA
-
