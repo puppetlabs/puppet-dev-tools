@@ -1,52 +1,27 @@
-FROM centos:7
+FROM ruby:2.5.7-slim-buster
 
-# Set up the paths for Software Collection Library tools
-ENV PATH=/opt/rh/rh-ruby24/root/usr/local/bin:/opt/rh/rh-ruby24/root/usr/bin:/opt/rh/rh-git218/root/usr/local/bin:/opt/rh/rh-git218/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV LD_LIBRARY_PATH=/opt/rh/rh-ruby24/root/usr/local/lib64:/opt/rh/rh-ruby24/root/usr/lib64:/opt/rh/rh-git218/root/usr/local/lib64:/opt/rh/rh-git218/root/usr/lib64:/opt/rh/httpd24/root/usr/lib64
-ENV MANPATH=/opt/rh/rh-ruby24/root/usr/local/share/man:/opt/rh/rh-ruby24/root/usr/share/man:/opt/rh/rh-git218/root/usr/local/share/man:/opt/rh/rh-git218/root/usr/share/man
-ENV X_SCLS=rh-ruby24,rh-git218
-ENV XDG_DATA_DIRS=/opt/rh/rh-ruby24/root/usr/local/share:/opt/rh/rh-ruby24/root/usr/share:/opt/rh/rh-git218/root/usr/local/share:/opt/rh/rh-git218/root/usr/share:/usr/local/share:/usr/share
-ENV PKG_CONFIG_PATH=/opt/rh/rh-ruby24/root/usr/local/lib64/pkgconfig:/opt/rh/rh-ruby24/root/usr/lib64/pkgconfig:/opt/rh/rh-git218/root/usr/local/lib64/pkgconfig:/opt/rh/rh-git218/root/usr/lib64/pkgconfig
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install latest PDK and image dependencies
-RUN rpm -i https://pm.puppet.com/cgi-bin/pdk_download.cgi?arch=x86_64\&dist=el\&rel=7\&ver=latest \
-    && yum makecache && yum install -y \
-      make \
-      gcc \
-      gcc-c++ \
-      autoconf \
-      automake \
-      patch \
-      readline \
-      readline-dev \
-      zlib \
-      zlib-devel \
-      libffi-devel \
-      libxml2-devel \
-      openssl-devel \
-      libgcc \
-      bash \
-      wget \
-      ca-certificates \
-      centos-release-scl \
-    && yum-config-manager --enable rhel-server-rhscl-7-rpms \
-    && yum install -y rh-ruby24 rh-ruby24-ruby-devel rh-git218 \
-    && yum clean all
-#Set up Ruby 2.4. Must be separate from Ruby installed with PDK
+RUN apt-get update -qq \
+  && apt-get install -y apt-utils \
+  && apt-get upgrade -y \
+  && apt-get install -y --no-install-recommends gcc git gnupg2 make ruby-dev wget \
+  && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
+  && dpkg -i puppet-tools-release-buster.deb \
+  && apt-get update -qq \
+  && apt-get install -y --no-install-recommends pdk \
+  && apt-get autoremove -y \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install dependent gems
-RUN gem install --no-ri --no-rdoc r10k \
-      json \
-      puppet:5.3.3 \
-      rubocop \
-      puppetlabs_spec_helper \
-      puppet-lint \
-      onceover \
-      onceover-codequality \
-      rest-client \
-      ra10ke
+RUN mkdir /setup
+WORKDIR /setup
+ADD Gemfile* /setup/
+RUN gem install bundler \
+  && bundle config set system 'true' \
+  && bundle install --jobs=3
 
 COPY Rakefile /Rakefile
 
-RUN mkdir -p /repo
+RUN mkdir /repo
 WORKDIR /repo
