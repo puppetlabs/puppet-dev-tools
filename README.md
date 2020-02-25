@@ -1,6 +1,7 @@
 # Puppet Dev Tools
 
-![](https://github.com/puppetlabs/puppet-dev-tools/workflows/Build%20and%20Test/badge.svg)
+![GitHub Actions Build and Test status](https://github.com/puppetlabs/puppet-dev-tools/workflows/Build%20and%20Test/badge.svg)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=puppetlabs/puppet-dev-tools)](https://dependabot.com)
 
 ## Running
 
