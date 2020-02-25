@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'hiera-eyaml',                                               '~> 3.2'
 gem 'json',                                                      '~> 2.3'
 gem 'onceover-codequality',                                      '~> 0.7'
-gem 'onceover',                                                  '>= 3.11.1', "< 3.15.0"
+gem 'onceover',                                                  '>= 3.11.1', '< 3.16.0'
 gem 'puppet-lint-classes_and_types_beginning_with_digits-check', '~> 0.1'
 gem 'puppet-lint-leading_zero-check',                            '~> 0.1'
 gem 'puppet-lint-legacy_facts-check',                            '~> 1.0'
