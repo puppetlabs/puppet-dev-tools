@@ -1,0 +1,38 @@
+name: Build-Test
+on:
+  - pull_request
+jobs:
+  Build-Test:
+    # Everything below here should be identical to build-test-push.yml with one exception:
+    # the "Login to Docker Hub" and "Push Docker images" should have been removed.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build main image
+        run: |
+          docker build --target base \
+          -t puppet-dev-tools:latest \
+          --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+          --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
+          -f Dockerfile .
+      - name: Build gosu image
+        run: |
+          docker build --target gosu \
+          -t puppet-dev-tools:gosu \
+          --build-arg VCS_REF=$(git rev-parse --short HEAD) \
+          --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
+          -f Dockerfile .
+      - name: Run tests
+        run: cd tests; ./run_tests.sh
+      - name: Tag Docker images
+        run: |
+          docker tag puppet-dev-tools:latest ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
+          docker tag puppet-dev-tools:latest ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:latest
+          docker tag puppet-dev-tools:gosu ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:gosu-$(date +"%F")-$(git rev-parse --short HEAD)
+          docker tag puppet-dev-tools:gosu ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:gosu
+      - name: List Docker images
+        run: docker images --filter "reference=puppet-dev-tools*" --filter "reference=*/puppet-dev-tools*"
+      - name: Show Docker image labels
+        run: |
+          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:latest
+          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:latest
