@@ -1,9 +1,13 @@
 #!/bin/bash
 
+set -e
+
+GH_USER=${1:-puppetlabs}
+
 SHA=''
 
 function build() {
-  SHA=$(docker build -t $1 -f $2 . | grep "^Successfully built" | awk '{ print $3 }')
+  SHA=$(docker build --target $1 -t $2 --build-arg VCS_REF=$(git rev-parse --short HEAD) --build-arg GH_USER=$3 -f Dockerfile . | grep "^Successfully built" | awk '{ print $3 }')
 }
 
 function update_readme() {
@@ -16,16 +20,16 @@ function update_readme() {
     f1=$(echo $line |cut -d '#' -f1)
     f2=$(echo $line |cut -d '#' -f2-)
     echo "| $f1 | $f2 |" >> README.md
-  done < <(docker run --rm puppet/puppet-dev-tools:latest rake -f /Rakefile -T |tr -s ' ')
+  done < <(docker run --rm puppet-dev-tools:latest rake -f /Rakefile -T |tr -s ' ')
 }
 
 echo -n "Building base image..."
-build puppet/puppet-dev-tools:latest Dockerfile
+build base puppet-dev-tools:latest $GH_USER
 echo $SHA
 
 echo "Updating rake tasks in README.md..."
 update_readme
 
 echo -n "Building gosu image..."
-build puppet/puppet-dev-tools:gosu gosu/Dockerfile
+build gosu puppet-dev-tools:gosu $GH_USER
 echo $SHA

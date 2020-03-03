@@ -1,7 +1,15 @@
 # Puppet Dev Tools
 
-![GitHub Actions Build and Test status](https://github.com/puppetlabs/puppet-dev-tools/workflows/Build%20and%20Test/badge.svg)
+![GitHub Actions Build-Test-Push status](https://github.com/puppetlabs/puppet-dev-tools/workflows/Build-Test-Push/badge.svg)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=puppetlabs/puppet-dev-tools)](https://dependabot.com)
+[![](https://images.microbadger.com/badges/version/puppet/puppet-dev-tools.svg)](https://microbadger.com/images/puppet/puppet-dev-tools "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/commit/puppet/puppet-dev-tools.svg)](https://microbadger.com/images/puppet/puppet-dev-tools "Get your own commit badge on microbadger.com")
+
+## Docker Tags
+
+- `latest`: The latest build of `puppet-dev-tools` based on the master branch. These builds are updated automatically when [Dependabot](https://github.com/apps/dependabot-preview) observes an out-of-date gem in our Gemfile.
+- `gosu`: A variation of `latest` that includes [gosu](https://github.com/tianon/gosu) for CD for PE agent installation uid changes.
+- `<year>-<month>-<day>-<a short string>`: Each build of `puppet-dev-tools:latest` and `puppet-dev-tools:gosu` also generates a image tagged with the date of its build followed by a short git SHA. These images are suitable for pinning to if you do not wish to live on the edge with `latest`. Changes from one image to the next will include things shown in the [commit history](https://github.com/puppetlabs/puppet-dev-tools/commits/master) on GitHub and updated operating system packages pulled in at build time.
 
 ## Running
 
@@ -10,10 +18,10 @@ You can use this container by running `docker run --rm -v $(pwd):/repo puppet/pu
 ## Supported Commands
 
 1. PDK - `pdk`
-   - run `docker run --rm puppet/puppet-dev-tools:latest onceover --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:latest pdk --help` to see builtin help
    - see the [PDK command reference](https://puppet.com/docs/pdk/1.x/pdk_reference.html) for details
 2. Onceover - `onceover`
-   - run `docker run --rm puppet/puppet-dev-tools:latest pdk --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:latest onceover --help` to see builtin help
    - see [Onceover's readme](https://github.com/dylanratcliffe/onceover/blob/master/README.md) for details
 3. Rake tasks from the installed gems (see below)
    - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools rake lint`
