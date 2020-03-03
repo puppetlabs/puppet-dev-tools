@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y apt-utils \
   && apt-get upgrade -y \
-  && apt-get install -y --no-install-recommends gcc git gnupg2 make ruby-dev wget \
+  && apt-get install -y --no-install-recommends gcc git gnupg2 make ruby-dev wget openssh-client \
   && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
   && dpkg -i puppet-tools-release-buster.deb \
   && apt-get update -qq \
