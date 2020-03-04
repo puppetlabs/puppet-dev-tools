@@ -27,6 +27,15 @@ You can use this container by running `docker run --rm -v $(pwd):/repo puppet/pu
    - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools rake lint`
    - run multiple rake tasks sequentially like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools rake lint syntax yamllint`
 
+### A note on Onceover usage
+
+If your control repository contains a Gemfile you will likely want to modify the commands listed above to something like this:
+
+```bash
+docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:latest \
+/bin/bash -c "bundle install && bundle exec onceover run spec --force --trace --parallel"
+```
+
 <!-- Everything below the Rake Tasks header will be overwritten by build.sh -->
 
 ### Rake Tasks
