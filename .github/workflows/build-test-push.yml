@@ -41,6 +41,6 @@ jobs:
       - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
-          docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
+          #docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
           docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu-$(date +"%F")-$(git rev-parse --short HEAD)
-          docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu
+          #docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu
