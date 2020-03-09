@@ -23,6 +23,7 @@ RUN apt-get update -qq \
 RUN mkdir /setup
 WORKDIR /setup
 ADD Gemfile* /setup/
+RUN ln -s /bin/mkdir /usr/bin/mkdir
 RUN gem install bundler \
   && bundle config set system 'true' \
   && bundle install --jobs=3 \
