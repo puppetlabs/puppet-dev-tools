@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'ffi',                                                       '~> 1.12', '>= 1.12.2'
 gem 'hiera-eyaml',                                               '~> 3.2'
 gem 'json',                                                      '~> 2.3'
 gem 'nokogiri',                                                  '~> 1.10', '>= 1.10.9'
