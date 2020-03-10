@@ -9,8 +9,8 @@ gem 'onceover',                                                  '~> 3.15'
 gem 'puppet-lint-classes_and_types_beginning_with_digits-check', '~> 0.1'
 gem 'puppet-lint-leading_zero-check',                            '~> 0.1'
 gem 'puppet-lint-legacy_facts-check',
-  git: 'https://github.com/rodjek/puppet-lint-legacy_facts-check',
-  ref: 'cec78080f8334eaa67f4baa2ff19733d1019c302' # https://github.com/mmckinst/puppet-lint-legacy_facts-check/pull/32
+  git: 'https://github.com/mmckinst/puppet-lint-legacy_facts-check',
+  ref: 'e51a1f1dcb1645f2add7f881308474bf0c1d77a5' # https://github.com/mmckinst/puppet-lint-legacy_facts-check/pull/33 aka v1.0.4 (not on rubygems yet)
 gem 'puppet-lint-top_scope_facts-check',                         '~> 1.0'
 gem 'puppet-lint-trailing_comma-check',                          '~> 0.4.1'
 gem 'puppet-lint-unquoted_string-check',                         '~> 1.0'
