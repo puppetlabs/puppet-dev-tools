@@ -13,7 +13,7 @@ gem 'puppet-lint-legacy_facts-check',
   ref: 'e51a1f1dcb1645f2add7f881308474bf0c1d77a5' # https://github.com/mmckinst/puppet-lint-legacy_facts-check/pull/33 aka v1.0.4 (not on rubygems yet)
 gem 'puppet-lint-top_scope_facts-check',                         '~> 1.0'
 gem 'puppet-lint-trailing_comma-check',                          '~> 0.4.1'
-gem 'puppet-lint-unquoted_string-check',                         '~> 1.0'
+gem 'puppet-lint-unquoted_string-check',                         '~> 2.0'
 gem 'puppet-lint-variable_contains_upcase',                      '~> 1.2'
 gem 'puppet-lint-version_comparison-check',                      '~> 0.2'
 gem 'puppet-lint',                                               '~> 2.4'
