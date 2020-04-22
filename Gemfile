@@ -5,7 +5,7 @@ gem 'hiera-eyaml',                                               '~> 3.2'
 gem 'json',                                                      '~> 2.3'
 gem 'nokogiri',                                                  '~> 1.10', '>= 1.10.9'
 gem 'onceover-codequality',                                      '~> 0.7'
-gem 'onceover',                                                  '~> 3.15'
+gem 'onceover',                                                  '~> 3.16'
 gem 'puppet-lint-classes_and_types_beginning_with_digits-check', '~> 0.1'
 gem 'puppet-lint-leading_zero-check',                            '~> 0.1'
 gem 'puppet-lint-legacy_facts-check' # https://github.com/mmckinst/puppet-lint-legacy_facts-check/pull/33 aka v1.0.4 (not on rubygems yet)
