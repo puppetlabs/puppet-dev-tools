@@ -27,7 +27,7 @@ File { backup => 'main' }
 
 Package { allow_virtual => false }
 
-if $::osfamily == 'windows' {
+if $facts['os']['family'] == 'windows' {
   File {
     source_permissions => ignore,
   }
