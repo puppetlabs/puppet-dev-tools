@@ -11,14 +11,7 @@ jobs:
       - name: Build main image
         run: |
           docker build --target base \
-          -t puppet-dev-tools:latest \
-          --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-          --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
-          -f Dockerfile .
-      - name: Build gosu image
-        run: |
-          docker build --target gosu \
-          -t puppet-dev-tools:gosu \
+          -t puppet-dev-tools \
           --build-arg VCS_REF=$(git rev-parse --short HEAD) \
           --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
           -f Dockerfile .
@@ -28,5 +21,4 @@ jobs:
         run: docker images --filter "reference=puppet-dev-tools*" --filter "reference=*/puppet-dev-tools*"
       - name: Show Docker image labels
         run: |
-          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:latest
-          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools:latest
+          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools

@@ -11,14 +11,7 @@ jobs:
       - name: Build main image
         run: |
           docker build --target base \
-          -t puppet-dev-tools:latest \
-          --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-          --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
-          -f Dockerfile .
-      - name: Build gosu image
-        run: |
-          docker build --target gosu \
-          -t puppet-dev-tools:gosu \
+          -t puppet-dev-tools:4.x \
           --build-arg VCS_REF=$(git rev-parse --short HEAD) \
           --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
           -f Dockerfile .
@@ -26,21 +19,16 @@ jobs:
         run: cd tests; ./run_tests.sh
       - name: Tag Docker images
         run: |
-          docker tag puppet-dev-tools:latest ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
-          docker tag puppet-dev-tools:latest ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
-          docker tag puppet-dev-tools:gosu ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu-$(date +"%F")-$(git rev-parse --short HEAD)
-          docker tag puppet-dev-tools:gosu ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu
+          docker tag puppet-dev-tools:4.x ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
+          docker tag puppet-dev-tools:4.x ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:4.x
       - name: List Docker images
         run: docker images --filter "reference=puppet-dev-tools*" --filter "reference=*/puppet-dev-tools*"
       - name: Show Docker image labels
         run: |
-          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
-          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
+          docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:4.x
       - name: Login to Docker Hub
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN_USERNAME }} --password-stdin
       - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
-          #docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:latest
-          docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu-$(date +"%F")-$(git rev-parse --short HEAD)
-          #docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:gosu
+          docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:4.x
