@@ -1,11 +1,6 @@
-#/bin/bash 
+#!/usr/bin/env bash
 
-SHA=''
-
-function build() {
-  SHA=$(docker build `pwd`/../ | grep "^Successfully built" | awk '{ print $3 }')
-  echo -e "Testing image with sha ${SHA}"
-}
+DOCKER_IMAGE=${1:-'puppet-dev-tools:latest'}
 
 function runtest() {
   title=$1
@@ -48,19 +43,17 @@ function runtest() {
   fi
 }
 
-build
+runtest 'Puppetfile with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile r10k:syntax" 1 'Puppetfile syntax check failed';
+runtest 'Puppetfile with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile r10k:syntax" 0 'Syntax OK';
 
-runtest 'Puppetfile with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile r10k:syntax" 1 'Puppetfile syntax check failed';
-runtest 'Puppetfile with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile r10k:syntax" 0 'Syntax OK';
+runtest 'Templates with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:templates" 1 "Syntax error at '' (file: site/profile/templates/bad_template.epp, line: 2, column: 23)";
+runtest 'Templates with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:templates" 0 "";
 
-runtest 'Templates with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:templates" 1 "Syntax error at '' (file: site/profile/templates/bad_template.epp, line: 2, column: 23)";
-runtest 'Templates with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile syntax:templates" 0 "";
+runtest 'Manifests with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:manifests" 1 "Could not parse for environment \*root\*: Syntax error at 'SYNTAX' (file: /repo/site/profile/manifests/common.pp, line: 5, column: 12)";
+runtest 'Manifests with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:manifests" 0 '';
 
-runtest 'Manifests with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:manifests" 1 "Could not parse for environment \*root\*: Syntax error at 'SYNTAX' (file: /repo/site/profile/manifests/common.pp, line: 5, column: 12)";
-runtest 'Manifests with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile syntax:manifests" 0 '';
+runtest 'Hiera with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:hiera" 1 "ERROR: Failed to parse data/common.yaml: (data/common.yaml): could not find expected ':' while scanning a simple key at line 4 column 1";
+runtest 'Hiera with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile syntax:hiera" 0 '';
 
-runtest 'Hiera with bad syntax' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile syntax:hiera" 1 "ERROR: Failed to parse data/common.yaml: (data/common.yaml): could not find expected ':' while scanning a simple key at line 4 column 1";
-runtest 'Hiera with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile syntax:hiera" 0 '';
-
-runtest 'Linting check catches errors' "docker run -v `pwd`/control-repo/badsyntax:/repo ${SHA} rake -f /Rakefile lint syntax yamllint" 1 'site/profile/manifests/common.pp - WARNING: legacy fact on line 5';
-runtest 'Linting check finds no errors' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${SHA} rake -f /Rakefile lint syntax yamllint" 0 '';
+runtest 'Linting check catches errors' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile lint syntax yamllint" 1 'site/profile/manifests/common.pp - WARNING: legacy fact on line 5';
+runtest 'Linting check finds no errors' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile lint syntax yamllint" 0 '';

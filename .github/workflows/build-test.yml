@@ -8,13 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Build main image
-        run: |
-          docker build --target base \
-          -t puppet-dev-tools \
-          --build-arg VCS_REF=$(git rev-parse --short HEAD) \
-          --build-arg GH_USER=$(echo $GITHUB_REPOSITORY |cut -d '/' -f1) \
-          -f Dockerfile .
+      - name: Build image
+        run: ./build.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
       - name: Run tests
         run: cd tests; ./run_tests.sh
       - name: List Docker images
