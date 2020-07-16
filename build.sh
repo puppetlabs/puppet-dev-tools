@@ -30,6 +30,4 @@ echo $SHA
 echo "Updating rake tasks in README.md..."
 update_readme
 
-echo -n "Building gosu image..."
-build gosu puppet-dev-tools:gosu $GH_USER
 echo $SHA

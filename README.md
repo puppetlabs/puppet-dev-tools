@@ -18,14 +18,14 @@ You can use this container by running `docker run --rm -v $(pwd):/repo puppet/pu
 ## Supported Commands
 
 1. PDK - `pdk`
-   - run `docker run --rm puppet/puppet-dev-tools:latest pdk --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:4.x pdk --help` to see builtin help
    - see the [PDK command reference](https://puppet.com/docs/pdk/1.x/pdk_reference.html) for details
 2. Onceover - `onceover`
-   - run `docker run --rm puppet/puppet-dev-tools:latest onceover --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:4.x onceover --help` to see builtin help
    - see [Onceover's readme](https://github.com/dylanratcliffe/onceover/blob/master/README.md) for details
 3. Rake tasks from the installed gems (see below)
-   - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools rake lint`
-   - run multiple rake tasks sequentially like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools rake lint syntax yamllint`
+   - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:4.x rake lint`
+   - run multiple rake tasks sequentially like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:4.x rake lint syntax yamllint`
 
 ### A note on Onceover usage
 
