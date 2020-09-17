@@ -74,8 +74,7 @@ extra_gemfiles.each do |gemfile|
 end
 # vim: syntax=ruby
 
-gem 'aws-partitions',                                            '~> 1.371.0'
-gem 'crack',                                                     '~> 0.4.3'
+gem 'crack',                                                     '~> 0.4.4'
 gem 'ffi',                                                       '~> 1.12', '>= 1.12.2'
 gem 'hiera-eyaml',                                               '~> 3.2'
 gem 'nokogiri',                                                  '~> 1.10', '>= 1.10.9'
