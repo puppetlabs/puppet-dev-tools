@@ -2,7 +2,7 @@
 
 set -e
 
-DOCKER_IMAGE=${1:-'puppet-dev-tools:latest'}
+DOCKER_IMAGE=${1:-'puppet-dev-tools:el7'}
 
 sed -i '/### Rake Tasks/,$d' README.md
 echo '### Rake Tasks' >> README.md

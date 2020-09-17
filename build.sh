@@ -3,7 +3,7 @@
 set -e
 
 GH_USER=${1:-puppetlabs}
-DOCKER_IMAGE=${2:-'puppet-dev-tools:latest'}
+DOCKER_IMAGE=${2:-'puppet-dev-tools:el7'}
 
 docker build \
   -t ${DOCKER_IMAGE} \
