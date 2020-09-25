@@ -41,7 +41,7 @@ RUN gem install bundler \
   && bundle install --jobs=3 \
   && gem install crack -v 0.4.3 \
   && rm -f /root/.bundle/config \
-  && sed -i 's/Parser.new(source, opts).parse/Parser.new(source, **opts).parse/g' /usr/local/rvm/gems/ruby-2.7.1/gems/json_pure-2.1.0/lib/json/common.rb
+  && sed -i 's/Parser.new(source, opts).parse/Parser.new(source, **opts).parse/g' /usr/local/rvm/gems/ruby-2.5.8/gems/json_pure-2.1.0/lib/json/common.rb
 
 # Cleanup
 RUN yum clean all
