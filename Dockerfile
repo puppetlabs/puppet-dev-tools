@@ -1,4 +1,6 @@
-FROM ruby:2.5.8-slim-buster as base
+# specifying the platform here allows builds to work
+# correctly on Apple Silicon machines
+FROM --platform=amd64 ruby:2.7.2-slim-buster as base
 
 ARG VCS_REF
 ARG GH_USER=puppetlabs

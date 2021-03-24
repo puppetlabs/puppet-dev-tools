@@ -4,7 +4,14 @@ set -e
 
 DOCKER_IMAGE=${1:-'puppet-dev-tools:latest'}
 
-sed -i '/### Rake Tasks/,$d' README.md
+if [ $(which gsed) ]; then
+  # workaround for macOS.
+  # Installed via brew install gnu-sed
+  gsed -i '/### Rake Tasks/,$d' README.md
+else
+  sed -i '/### Rake Tasks/,$d' README.md
+fi
+
 echo '### Rake Tasks' >> README.md
 echo >> README.md
 echo '| Command | Description |' >> README.md

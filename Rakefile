@@ -35,7 +35,6 @@ PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.ignore_paths = exclude_paths
 
 PuppetSyntax.exclude_paths = exclude_paths
-PuppetSyntax.app_management = true
 PuppetSyntax.check_hiera_keys = true
 
 ps_hieradata_paths = [
