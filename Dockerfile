@@ -29,19 +29,24 @@ RUN apt-get install -y apt-utils \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 
+RUN useradd cd4pe
+
 # Install dependent gems
 RUN mkdir /setup
 WORKDIR /setup
 ADD Gemfile* /setup/
 RUN ln -s /bin/mkdir /usr/bin/mkdir
+
 RUN gem install bundler \
   && bundle config set system 'true' \
-  && bundle install --jobs=3 \
+  && bundle install --system --jobs=3 \
   && rm -f /root/.bundle/config
 
 COPY Rakefile /Rakefile
 
 RUN mkdir /repo
 WORKDIR /repo
+
+USER cd4pe
 
 FROM base AS main
