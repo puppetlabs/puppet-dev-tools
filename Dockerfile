@@ -27,8 +27,7 @@ RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends pdk \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* \
-  && gem update
+  && rm -rf /var/lib/apt/lists/*
 
 # Install dependent gems
 RUN mkdir /setup
@@ -40,9 +39,13 @@ RUN gem install bundler \
   && bundle install --jobs=3 \
   && rm -f /root/.bundle/config
 
+RUN useradd cd4pe
+
 COPY Rakefile /Rakefile
 
 RUN mkdir /repo
 WORKDIR /repo
+
+USER cd4pe
 
 FROM base AS main
