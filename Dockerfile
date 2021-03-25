@@ -25,8 +25,7 @@ RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends pdk \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* \
-  && gem update
+  && rm -rf /var/lib/apt/lists/*
 
 # Install dependent gems
 RUN mkdir /setup
