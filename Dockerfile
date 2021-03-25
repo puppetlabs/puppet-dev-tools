@@ -1,4 +1,4 @@
-FROM ruby:2.5.8-slim-buster as base
+FROM ruby:2.7.2-slim-buster as base
 
 ARG VCS_REF
 ARG GH_USER=puppetlabs
@@ -25,7 +25,8 @@ RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends pdk \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  && gem update
 
 # Install dependent gems
 RUN mkdir /setup
