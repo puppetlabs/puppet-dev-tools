@@ -48,6 +48,7 @@ docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:latest \
 | rake build  |  Build puppet module package |
 | rake build:pdk  |  Build Puppet module with PDK |
 | rake build:pmt  |  Build Puppet module package with PMT (Puppet < 6.0.0 only) |
+| rake check  |  Run static pre release checks |
 | rake check:dot_underscore  |  Fails if any ._ files are present in directory |
 | rake check:git_ignore  |  Fails if directories contain the files specified in .gitignore |
 | rake check:symlinks  |  Fails if symlinks are present in directory |
