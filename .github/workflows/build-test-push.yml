@@ -8,12 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Build image
+      - name: Build rootless image
+        run: ./build-rootless.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
+      - name: Build standard image
         run: ./build.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
       - name: Run tests
         run: cd tests; ./run_tests.sh
       - name: Tag Docker images
         run: |
+          docker tag puppet-dev-tools:latest-rootless ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)-rootless
           docker tag puppet-dev-tools:latest ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)
       - name: List Docker images
         run: docker images --filter "reference=puppet-dev-tools*" --filter "reference=*/puppet-dev-tools*"
@@ -24,4 +27,5 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN_USERNAME }} --password-stdin
       - name: Push Docker images
         run: |
+          docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)-rootless
           docker push ${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools:$(date +"%F")-$(git rev-parse --short HEAD)

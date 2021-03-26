@@ -8,7 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Build image
+      - name: Build rootless image
+        run: ./build-rootless.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
+      - name: Build standard image
         run: ./build.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
       - name: Run tests
         run: cd tests; ./run_tests.sh
