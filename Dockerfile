@@ -29,24 +29,32 @@ RUN apt-get install -y apt-utils \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 
-RUN useradd cd4pe
-
-# Install dependent gems
-RUN mkdir /setup
-WORKDIR /setup
-ADD Gemfile* /setup/
 RUN ln -s /bin/mkdir /usr/bin/mkdir
 
-RUN gem install bundler \
-  && bundle config set system 'true' \
-  && bundle install --system --jobs=3 \
-  && rm -f /root/.bundle/config
+RUN groupadd --gid 1001 puppetdev \
+  && useradd --uid 1001 --gid puppetdev --create-home puppetdev
 
+# Prep for non-root user
+RUN gem install bundler \
+  && chown -R puppetdev:puppetdev /usr/local/bundle \
+  && mkdir /setup \
+  && chown -R puppetdev:puppetdev /setup \
+  && mkdir /repo \
+  && chown -R puppetdev:puppetdev /repo
+
+# Switch to a non-root user for everything below here
+USER puppetdev
+
+# Install dependent gems
+WORKDIR /setup
+ADD Gemfile* /setup/
 COPY Rakefile /Rakefile
 
-RUN mkdir /repo
-WORKDIR /repo
+RUN bundle config set system 'true' \
+  && bundle config set jobs 3 \
+  && bundle install \
+  && rm -f /home/puppetdev/.bundle/config
 
-USER cd4pe
+WORKDIR /repo
 
 FROM base AS main
