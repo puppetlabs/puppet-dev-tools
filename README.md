@@ -8,6 +8,7 @@
 ## Docker Tags
 
 - `<year>-<month>-<day>-<a short string>`: Each merge to master generates an image tagged with the date of its build followed by a short git SHA. These images are suitable for pinning to if you do not wish to live on the edge with `4.x`. Changes from one image to the next will include things shown in the [commit history](https://github.com/puppetlabs/puppet-dev-tools/commits/master) on GitHub and updated operating system packages pulled in at build time. The latest version of the PDK is also pulled in at build time.
+- `<year>-<month>-<day>-<a short string>-rootless`: This is just like the tag above but the container runs as a user namecd `puppetdev`.
 - `4.x`: This the tag that is used in the 4.x versions of CD4PE. This tag is updated manually from time to time.
 - `latest`: This is not actually the build of `puppet-dev-tools`, but rather the latest build used in CD4PE < 4.0. These builds are manually created by the CD4PE team.
 

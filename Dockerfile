@@ -57,4 +57,7 @@ RUN bundle config set system 'true' \
 
 WORKDIR /repo
 
+FROM base AS rootless
+
 FROM base AS main
+USER root
