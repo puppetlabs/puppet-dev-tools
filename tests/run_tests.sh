@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DOCKER_IMAGE=${1:-'puppet/puppet-dev-tools:latest'}
+DOCKER_IMAGE=${1:-'puppet-dev-tools:latest'}
 
 function runtest() {
   title=$1
