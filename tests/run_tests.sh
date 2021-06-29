@@ -57,3 +57,5 @@ runtest 'Hiera with good syntax' "docker run -v `pwd`/control-repo/goodsyntax:/r
 
 runtest 'Linting check catches errors' "docker run -v `pwd`/control-repo/badsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile lint syntax yamllint" 1 'site/profile/manifests/common.pp - WARNING: legacy fact on line 5';
 runtest 'Linting check finds no errors' "docker run -v `pwd`/control-repo/goodsyntax:/repo ${DOCKER_IMAGE} rake -f /Rakefile lint syntax yamllint" 0 '';
+
+runtest 'rspec-puppet passes Deferred unwrap test' "docker run -v `pwd`/module/test:/repo ${DOCKER_IMAGE} pdk test unit --tests spec/classes/defer_spec.rb --clean-fixtures" 0
