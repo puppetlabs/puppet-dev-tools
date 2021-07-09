@@ -1,0 +1,34 @@
+name: "Publish images to 4.x and 4.x-rootless tags"
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Image tag on dockerhub to promote to the puppet-dev-tools 4.x image tag (ie. 2021-06-29-da6666a)
+        required: true
+      image_tag_rootless:
+        description: Image tag on dockerhub to promote to the puppet-dev-tools 4.x-rootless image tag (ie. 2021-06-29-da6666a-rootless)
+        required: true
+
+jobs:
+  publish-4x-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN_USERNAME }} --password-stdin
+      - name: Publish standard image to 4.x
+        env:
+          IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
+          IMAGE_TAG: ${{ github.event.inputs.image_tag }}
+        run: |
+          docker pull ${IMAGE_BASE}:${IMAGE_TAG}
+          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:4.x
+          docker push ${IMAGE_BASE}:4.x
+      - name: Publish rootless image to 4.x-rootless
+        env:
+          IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
+          IMAGE_TAG: ${{ github.event.inputs.image_tag_rootless }}
+        run: |
+          docker pull ${IMAGE_BASE}:${IMAGE_TAG}
+          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:4.x-rootless
+          docker push ${IMAGE_BASE}:4.x-rootless
