@@ -1,8 +1,9 @@
 name: Build-Test-Push
 on:
   push:
-      branches:
-        - master
+    branches:
+      - master
+      - cd4pe-*-release
 jobs:
   Build-Test-Push:
     runs-on: ubuntu-latest
