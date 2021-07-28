@@ -1,8 +1,8 @@
 name: Build-Test-Push
 on:
   push:
-      branches:
-        - master
+    branches:
+      - main
 jobs:
   Build-Test-Push:
     runs-on: ubuntu-latest
