@@ -7,7 +7,7 @@ gem 'nokogiri',                                                  '~> 1.10', '>= 
 gem 'onceover',                                                  '~> 3.19', '>= 3.19.2'
 gem 'parallel',                                                  '~> 1.20', '>= 1.20.1'               
 gem 'puppet-lint-classes_and_types_beginning_with_digits-check', '~> 0.1'
-gem 'puppet-lint-leading_zero-check',                            '~> 0.1'
+gem 'puppet-lint-leading_zero-check',                            '~> 1.0'
 gem 'puppet-lint-legacy_facts-check',                            '~> 1.0', '>= 1.0.4'
 gem 'puppet-lint-top_scope_facts-check',                         '~> 1.0'
 gem 'puppet-lint-trailing_comma-check',                          '~> 0.4.1'
