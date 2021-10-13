@@ -25,8 +25,19 @@ RUN apt-get install -y apt-utils \
   && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev \
   && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
   && dpkg -i puppet-tools-release-buster.deb \
-  && apt-get update -qq \
-  && apt-get install -y --no-install-recommends pdk \
+  && apt-get update -qq
+
+# install old PDK and run tests to pull in gem dependencies
+RUN apt-get install -y --no-install-recommends pdk=1.18.1.0-1buster \
+  && pdk new module test --skip-interview \
+  && cd test \
+  && pdk validate \
+  && pdk test unit \
+  && cd .. \
+  && rm -rf test
+
+# install recent PDK
+RUN apt-get install -y --no-install-recommends pdk \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 
