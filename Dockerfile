@@ -29,7 +29,7 @@ RUN apt-get install -y apt-utils \
 
 # install old PDK and run tests to pull in gem dependencies
 RUN apt-get install -y --no-install-recommends pdk=1.18.1.0-1buster \
-  && pdk new module test --skip-interview \
+  && yes | pdk new module test --skip-interview \
   && cd test \
   && pdk validate \
   && pdk test unit \
