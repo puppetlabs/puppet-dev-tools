@@ -38,8 +38,8 @@ RUN ln -s /bin/mkdir /usr/bin/mkdir
 # Simply running "bundle install" against the module is not enough, 
 # as PDK has further dependencies to pull in.
 COPY pdk_1_18_1_dependencies /test_module
-WORKDIR /test_module
-RUN pdk validate \
+RUN cd test_module \
+  && pdk validate \
   && cd .. \
   && rm -rf test_module
 
