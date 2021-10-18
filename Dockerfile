@@ -32,6 +32,17 @@ RUN apt-get install -y apt-utils \
 
 RUN ln -s /bin/mkdir /usr/bin/mkdir
 
+# Run tests on a module created with PDK 1.18.1 using the current PDK to pull in
+# any other dependencies and then delete the 1.18.1 test module.
+#
+# Simply running "bundle install" against the module is not enough, 
+# as PDK has further dependencies to pull in.
+COPY pdk_1_18_1_dependencies /test_module
+RUN cd test_module \
+  && pdk validate \
+  && cd .. \
+  && rm -rf test_module
+
 RUN groupadd --gid 1001 puppetdev \
   && useradd --uid 1001 --gid puppetdev --create-home puppetdev
 
