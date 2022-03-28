@@ -73,3 +73,9 @@ FROM base AS rootless
 
 FROM base AS main
 USER root
+
+RUN rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
+  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
+  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/test/* \
+  && rm -rf /opt/puppetlabs/pdk/share/cache/ruby/2.7.0/gems/httpclient-2.8.3/sample/ssl/* \
+  && rm -rf /usr/local/bundle/gems/puppet-7.14.0/spec/fixtures/ssl/*
