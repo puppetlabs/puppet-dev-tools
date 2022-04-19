@@ -28,7 +28,11 @@ RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get install -y --no-install-recommends pdk \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
+  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
+  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/test/* \
+  && rm -rf /opt/puppetlabs/pdk/share/cache/ruby/2.7.0/gems/httpclient-2.8.3/sample/ssl/*
 
 RUN ln -s /bin/mkdir /usr/bin/mkdir
 
@@ -65,7 +69,8 @@ COPY Rakefile /Rakefile
 RUN bundle config set system 'true' \
   && bundle config set jobs 3 \
   && bundle install \
-  && rm -f /home/puppetdev/.bundle/config
+  && rm -f /home/puppetdev/.bundle/config \
+  && rm -rf /usr/local/bundle/gems/puppet-7.*.0/spec/fixtures/ssl/*
 
 WORKDIR /repo
 
@@ -73,9 +78,3 @@ FROM base AS rootless
 
 FROM base AS main
 USER root
-
-RUN rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
-  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
-  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/test/* \
-  && rm -rf /opt/puppetlabs/pdk/share/cache/ruby/2.7.0/gems/httpclient-2.8.3/sample/ssl/* \
-  && rm -rf /usr/local/bundle/gems/puppet-7.14.0/spec/fixtures/ssl/*
