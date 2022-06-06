@@ -22,7 +22,7 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get upgrade -y \
-  && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev \
+  && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev libldap-2.4-2 libldap-common libssl1.1 openssl \
   && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
   && dpkg -i puppet-tools-release-buster.deb \
   && apt-get update -qq \
