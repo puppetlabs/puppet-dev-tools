@@ -70,7 +70,7 @@ RUN bundle config set system 'true' \
   && bundle config set jobs 3 \
   && bundle install \
   && rm -f /home/puppetdev/.bundle/config \
-  && rm -rf /usr/local/bundle/gems/puppet-7.*.0/spec/fixtures/ssl/*
+  && rm -rf /usr/local/bundle/gems/puppet-7.*.0/spec
 
 WORKDIR /repo
 
