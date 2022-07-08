@@ -19,4 +19,4 @@ jobs:
       - name: run snyk
         run: snyk monitor --file=Gemfile.lock --project-name=${{github.repository}}:Gemfile.lock
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_FOSS_KEY }}
+          SNYK_TOKEN: ${{ secrets.SNYK_CD4PE_KEY }}
