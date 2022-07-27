@@ -31,6 +31,7 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH,MEDIUM'
           vuln-type: os
+          timeout: 10m0s
       - name: Publish standard image to 4.x
         env:
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
