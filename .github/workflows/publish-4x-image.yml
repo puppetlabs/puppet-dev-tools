@@ -13,20 +13,32 @@ on:
 jobs:
   publish-4x-image:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
     steps:
       - name: Login to Docker Hub
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_LOGIN_USERNAME }} --password-stdin
-      - name: Publish standard image to 4.x
+      - name: Pull image
         env:
-          IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
         run: |
           docker pull ${IMAGE_BASE}:${IMAGE_TAG}
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.IMAGE_BASE }}:${{ github.event.inputs.image_tag }}
+          exit-code: 1
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: os
+      - name: Publish standard image to 4.x
+        env:
+          IMAGE_TAG: ${{ github.event.inputs.image_tag }}
+        run: |
           docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:4.x
           docker push ${IMAGE_BASE}:4.x
       - name: Publish rootless image to 4.x-rootless
         env:
-          IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
           IMAGE_TAG: ${{ github.event.inputs.image_tag_rootless }}
         run: |
           docker pull ${IMAGE_BASE}:${IMAGE_TAG}
