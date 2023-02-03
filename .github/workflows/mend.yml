@@ -36,4 +36,4 @@ jobs:
         WS_WSS_URL: https://saas-eu.whitesourcesoftware.com/agent
         WS_USERKEY: ${{ secrets.MEND_TOKEN }}
         WS_PRODUCTNAME: CD4PE
-        WS_PROJECTNAME: puppet-test-${{ github.ref_name }}
+        WS_PROJECTNAME:  ${{ github.event.repository.name }}
