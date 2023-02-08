@@ -28,6 +28,7 @@ function runtest() {
     if [ "$is_found" -eq "$notfound" ]; then
       echo -e "${RED}FAIL"
       echo -e "String not found: ${greptext}"
+      echo -e $output
       echo -e "${NC}"
       exit 1
     fi
