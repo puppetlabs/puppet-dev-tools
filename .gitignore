@@ -1,2 +1,5 @@
 .vagrant/
+.bundle/
 Vagrantfile
+vendor/bundle/
+Gemfile.lock
