@@ -5,7 +5,7 @@ gem 'hiera-eyaml',                                               '~> 3.2', '>= 3
 gem 'json',                                                      '~> 2.3'
 gem 'nokogiri',                                                  '~> 1.10', '>= 1.10.9'
 gem 'onceover',                                                  '~> 3.20', '>= 3.20.0'
-gem 'onceover-codequality',                                      '~> 0.9', '>= 0.9.0'
+gem 'onceover-codequality',                                      '~> 0.9'
 gem 'onceover-octocatalog-diff',                                 '~> 0.1', '>= 0.1.8'
 gem 'onceover-lookup',                                           '~> 0.1', '>= 0.1.1'
 gem 'parallel',                                                  '~> 1.20', '>= 1.20.1'
