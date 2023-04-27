@@ -3,8 +3,6 @@ on:
   - pull_request
 jobs:
   Build-Test:
-    # Everything below here should be identical to build-test-push.yml with one exception:
-    # the "Tag Docker images", "Login to Docker Hub", and "Push Docker images" should have been removed.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -12,10 +10,20 @@ jobs:
         run: ./build-rootless.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
       - name: Build standard image
         run: ./build.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
-      - name: Run tests
-        run: cd tests; ./run_tests.sh
       - name: List Docker images
         run: docker images --filter "reference=puppet-dev-tools*" --filter "reference=*/puppet-dev-tools*"
       - name: Show Docker image labels
         run: |
           docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: puppet-dev-tools:latest
+          exit-code: 1
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: os
+          timeout: 10m0s
+      - name: Run tests
+        working-directory: ${{ github.workspace }}/tests
+        run: ./run_tests.sh
