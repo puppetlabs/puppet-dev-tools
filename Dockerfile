@@ -51,7 +51,7 @@ RUN groupadd --gid 1001 puppetdev \
   && useradd --uid 1001 --gid puppetdev --create-home puppetdev
 
 # Prep for non-root user
-RUN gem install bundler \
+RUN gem install bundler -v 2.4.22 \
   && chown -R puppetdev:puppetdev /usr/local/bundle \
   && mkdir /setup \
   && chown -R puppetdev:puppetdev /setup \

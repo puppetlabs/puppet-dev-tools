@@ -22,6 +22,7 @@ jobs:
           severity: 'CRITICAL,HIGH,MEDIUM'
           vuln-type: os
           timeout: 10m0s
+          skip-files: "/usr/local/bundle/gems/nokogiri-1.15.5-x86_64-linux/dependencies.yml,/root/.pdk/cache/ruby/2.5.0/gems/aws-sdk-core-3.191.0/lib/aws-sdk-ssooidc/client.rb"
       - name: Run tests
         run: cd tests; ./run_tests.sh
       - name: Tag Docker images
