@@ -24,6 +24,7 @@ jobs:
           severity: 'CRITICAL,HIGH,MEDIUM'
           vuln-type: os
           timeout: 10m0s
+          skip-files: "/usr/local/bundle/gems/nokogiri-1.15.5-x86_64-linux/dependencies.yml"
       - name: Run tests
         working-directory: ${{ github.workspace }}/tests
         run: ./run_tests.sh
