@@ -7,9 +7,9 @@
 
 ## Docker Tags
 
-- `<year>-<month>-<day>-<a short string>`: Each merge to master generates an image tagged with the date of its build followed by a short git SHA. These images are suitable for pinning to if you do not wish to live on the edge with `4.x`. Changes from one image to the next will include things shown in the [commit history](https://github.com/puppetlabs/puppet-dev-tools/commits/master) on GitHub and updated operating system packages pulled in at build time.
+- `<year>-<month>-<day>-<a short string>`: Each merge to master generates an image tagged with the date of its build followed by a short git SHA. These images are suitable for pinning to if you do not wish to live on the edge with `5.x`. Changes from one image to the next will include things shown in the [commit history](https://github.com/puppetlabs/puppet-dev-tools/commits/master) on GitHub and updated operating system packages pulled in at build time.
 - `<year>-<month>-<day>-<a short string>-rootless`: This is just like the tag above but the container runs as a user namecd `puppetdev`.
-- `4.x`: This the tag that is used in the 4.x versions of CD4PE. This tag is updated manually from time to time.
+- `5.x`: This the tag that is used in the 5.x versions of CD4PE. This tag is updated manually from time to time.
 - `latest`: This is a legacy tag and not not actually the current build of puppet-dev-tools. It is the build used in older versions of CD4PE (prior to 4.0). These builds are manually created by the CD4PE team.
 
 ## Running
@@ -19,14 +19,14 @@ You can use this container by running `docker run --rm -v $(pwd):/repo puppet/pu
 ## Supported Commands
 
 1. PDK - `pdk`
-   - run `docker run --rm puppet/puppet-dev-tools:4.x pdk --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:5.x pdk --help` to see builtin help
    - see the [PDK command reference](https://puppet.com/docs/pdk/1.x/pdk_reference.html) for details
 2. Onceover - `onceover`
-   - run `docker run --rm puppet/puppet-dev-tools:4.x onceover --help` to see builtin help
+   - run `docker run --rm puppet/puppet-dev-tools:5.x onceover --help` to see builtin help
    - see [Onceover's readme](https://github.com/dylanratcliffe/onceover/blob/master/README.md) for details
 3. Rake tasks from the installed gems (see below)
-   - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:4.x rake -f /Rakefile lint`
-   - run multiple rake tasks sequentially like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:4.x rake -f /Rakefile lint syntax yamllint`
+   - run a single rake task like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:5.x rake -f /Rakefile lint`
+   - run multiple rake tasks sequentially like so: `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:5.x rake -f /Rakefile lint syntax yamllint`
 
 ### A note on Onceover usage
 
