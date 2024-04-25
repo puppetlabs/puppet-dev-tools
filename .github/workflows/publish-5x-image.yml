@@ -11,7 +11,7 @@ on:
         required: true
 
 jobs:
-  publish-4x-image:
+  publish-5x-image:
     runs-on: ubuntu-latest
     env:
       IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
