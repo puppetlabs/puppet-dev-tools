@@ -1,4 +1,4 @@
-name: "Publish images to 5.x and 5.x-rootless tags"
+name: "Publish images to 4.x and 4.x-rootless tags"
 
 on:
   workflow_dispatch:
