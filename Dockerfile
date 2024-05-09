@@ -1,6 +1,6 @@
 # specifying the platform here allows builds to work
 # correctly on Apple Silicon machines
-FROM --platform=amd64 ruby:2.7.4-slim-buster as base
+FROM --platform=amd64 ruby:3.1.0-slim-buster as base
 
 ARG VCS_REF
 ARG GH_USER=puppetlabs
@@ -26,7 +26,7 @@ RUN apt-get install -y apt-utils \
   && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
   && dpkg -i puppet-tools-release-buster.deb \
   && apt-get update -qq \
-  && apt-get install -y --no-install-recommends pdk=2.7.1.0-1buster \
+  && apt-get install -y --no-install-recommends pdk=3.0.1.3-1buster \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
@@ -41,11 +41,11 @@ RUN ln -s /bin/mkdir /usr/bin/mkdir
 #
 # Simply running "bundle install" against the module is not enough, 
 # as PDK has further dependencies to pull in.
-COPY pdk_1_18_1_dependencies /test_module
-RUN cd test_module \
+COPY testmod /testmod
+RUN cd testmod \
   && pdk validate \
   && cd .. \
-  && rm -rf test_module
+  && rm -rf testmod
 
 RUN groupadd --gid 1001 puppetdev \
   && useradd --uid 1001 --gid puppetdev --create-home puppetdev

@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: Image tag on dockerhub to promote to the puppet-dev-tools 4.x image tag (ie. 2021-06-29-da6666a)
+        description: Image tag on dockerhub to promote to the puppet-dev-tools pdk3 image tag (ie. 2021-06-29-da6666a)
         required: true
       image_tag_rootless:
-        description: Image tag on dockerhub to promote to the puppet-dev-tools 4.x-rootless image tag (ie. 2021-06-29-da6666a-rootless)
+        description: Image tag on dockerhub to promote to the puppet-dev-tools pdk3-rootless image tag (ie. 2021-06-29-da6666a-rootless)
         required: true
 
 jobs:
-  publish-4x-image:
+  publish-5x-image:
     runs-on: ubuntu-latest
     env:
       IMAGE_BASE: "${{ secrets.DOCKERHUB_PUSH_USERNAME }}/puppet-dev-tools"
@@ -33,16 +33,16 @@ jobs:
           vuln-type: os
           timeout: 10m0s
           skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
-      - name: Publish standard image to 4.x
+      - name: Publish standard image to pdk3
         env:
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
         run: |
-          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:4.x
-          docker push ${IMAGE_BASE}:4.x
-      - name: Publish rootless image to 4.x-rootless
+          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:pdk3
+          docker push ${IMAGE_BASE}:pdk3
+      - name: Publish rootless image to pdk3-rootless
         env:
           IMAGE_TAG: ${{ github.event.inputs.image_tag_rootless }}
         run: |
           docker pull ${IMAGE_BASE}:${IMAGE_TAG}
-          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:4.x-rootless
-          docker push ${IMAGE_BASE}:4.x-rootless
+          docker tag ${IMAGE_BASE}:${IMAGE_TAG} ${IMAGE_BASE}:pdk3-rootless
+          docker push ${IMAGE_BASE}:pdk3-rootless

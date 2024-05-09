@@ -1,5 +1,5 @@
 {
-  "name": "testuser-test_module",
+  "name": "testuser-testmod",
   "version": "0.1.0",
   "author": "testuser",
   "summary": "",
@@ -36,7 +36,7 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "9"
+        "10"
       ]
     },
     {
@@ -56,10 +56,10 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 7.24 < 9.0.0"
     }
   ],
-  "pdk-version": "1.18.1",
-  "template-url": "pdk-default#1.18.1",
-  "template-ref": "tags/1.18.1-0-g3d2e75c"
+  "pdk-version": "3.0.1",
+  "template-url": "pdk-default#3.0.1",
+  "template-ref": "tags/3.0.1-0-gd13288a"
 }
