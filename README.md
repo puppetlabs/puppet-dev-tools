@@ -14,7 +14,7 @@
 
 ## Running
 
-You can use this container by running `docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools <command>` where `<command>` is any of the ones listed below.
+This container is designed to run commands against control repos or modules that you want to test. It assumes that the repo code is mounted to /repo inside the container. To run test commands, from the root of a repo you want to test, run  docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools <command> where <command> is any of the ones listed below.
 
 ## Supported Commands
 
