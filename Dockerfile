@@ -26,7 +26,7 @@ RUN apt-get install -y apt-utils \
   && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
   && dpkg -i puppet-tools-release-buster.deb \
   && apt-get update -qq \
-  && apt-get install -y --no-install-recommends pdk=3.2.0.1-1buster \
+  && apt-get install -y --no-install-recommends pdk=3.3.0.0-1buster \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
