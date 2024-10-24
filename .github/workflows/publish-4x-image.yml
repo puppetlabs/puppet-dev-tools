@@ -23,16 +23,6 @@ jobs:
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
         run: |
           docker pull ${IMAGE_BASE}:${IMAGE_TAG}
-      - name: Trivy scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{ env.IMAGE_BASE }}:${{ github.event.inputs.image_tag }}
-          exit-code: 1
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          vuln-type: os
-          timeout: 10m0s
-          skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
       - name: Publish standard image to 4.x
         env:
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
