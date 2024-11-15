@@ -18,6 +18,16 @@ jobs:
       - name: Show Docker image labels
         run: |
           docker inspect --format='{{json .Config.Labels}}' ${{ secrets.DOCKERHUB_USERNAME }}/puppet-dev-tools
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: puppet-dev-tools:latest
+          exit-code: 1
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: os
+          timeout: 10m0s
+          skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
       - name: Run tests
         working-directory: ${{ github.workspace }}/tests
         run: ./run_tests.sh

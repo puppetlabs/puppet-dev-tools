@@ -19,6 +19,16 @@ jobs:
         run: ./build-rootless.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
       - name: Build standard image
         run: ./build.sh $(echo $GITHUB_REPOSITORY |cut -d '/' -f1)
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: puppet-dev-tools:latest
+          exit-code: 1
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: os
+          timeout: 10m0s
+          skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
       - name: Run tests
         run: cd tests; ./run_tests.sh
       - name: Tag Docker images
