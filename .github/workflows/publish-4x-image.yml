@@ -33,9 +33,6 @@ jobs:
           vuln-type: os
           timeout: 10m0s
           skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
-        env:
-          TRIVY_SKIP_DB_UPDATE: true
-          TRIVY_SKIP_JAVA_DB_UPDATE: true
       - name: Publish standard image to 4.x
         env:
           IMAGE_TAG: ${{ github.event.inputs.image_tag }}
