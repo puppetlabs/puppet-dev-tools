@@ -29,9 +29,6 @@ jobs:
           vuln-type: os
           timeout: 10m0s
           skip-files: "/root/.pdk/cache/ruby/*/gems/aws-sdk-core-*/lib/aws-sdk-ssooidc/client.rb"
-        env:
-          TRIVY_SKIP_DB_UPDATE: true
-          TRIVY_SKIP_JAVA_DB_UPDATE: true
       - name: Run tests
         run: cd tests; ./run_tests.sh
       - name: Tag Docker images
