@@ -62,6 +62,7 @@ PuppetSyntax.hieradata_paths = ps_hieradata_paths
 
 YamlLint::RakeTask.new do |yamllint|
   yamllint.paths = yl_paths
+  yamllint.exclude_paths = exclude_paths
 end
 
 Rake::Task[:spec_prep].enhance [:generate_fixtures]
