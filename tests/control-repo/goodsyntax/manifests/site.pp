@@ -18,7 +18,7 @@
 
 # Define filebucket 'main':
 filebucket { 'main':
-  path   => false,
+  path => false,
   #server => $::puppet_server,
 }
 
