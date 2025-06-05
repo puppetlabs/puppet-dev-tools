@@ -1,6 +1,6 @@
 # specifying the platform here allows builds to work
 # correctly on Apple Silicon machines
-FROM --platform=amd64 ruby:3.1.0-slim-buster as base
+FROM --platform=amd64 ruby:3.2.8-slim-bullseye as base
 
 ARG VCS_REF
 ARG GH_USER=puppetlabs
@@ -22,17 +22,13 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get install -y apt-utils \
   && apt-get update -qq \
   && apt-get upgrade -y \
-  && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev libldap-2.4-2 libldap-common libssl1.1 openssl cmake\
-  && wget https://apt.puppet.com/puppet-tools-release-buster.deb \
-  && dpkg -i puppet-tools-release-buster.deb \
+  && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev libldap-2.4-2 libldap-common libssl-dev openssl cmake pkg-config \
+  && wget https://apt.puppet.com/puppet-tools-release-bullseye.deb \
+  && dpkg -i puppet-tools-release-bullseye.deb \
   && apt-get update -qq \
-  && apt-get install -y --no-install-recommends pdk=3.2.0.1-1buster \
+  && apt-get install -y --no-install-recommends pdk=3.4.0.1-1bullseye \
   && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -rf /opt/puppetlabs/pdk/private/puppet/ruby/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
-  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/sample/ssl/* \
-  && rm -rf /opt/puppetlabs/pdk/private/ruby/2.5.9/lib/ruby/gems/2.5.0/gems/httpclient-2.8.3/test/* \
-  && rm -rf /opt/puppetlabs/pdk/share/cache/ruby/2.7.0/gems/httpclient-2.8.3/sample/ssl/*
+  && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /bin/mkdir /usr/bin/mkdir
 
@@ -51,7 +47,7 @@ RUN groupadd --gid 1001 puppetdev \
   && useradd --uid 1001 --gid puppetdev --create-home puppetdev
 
 # Prep for non-root user
-RUN gem install bundler -v 2.4.22 \
+RUN gem install bundler -v 2.6.9 \
   && chown -R puppetdev:puppetdev /usr/local/bundle \
   && mkdir /setup \
   && chown -R puppetdev:puppetdev /setup \
@@ -70,7 +66,7 @@ RUN bundle config set system 'true' \
   && bundle config set jobs 3 \
   && bundle install \
   && rm -f /home/puppetdev/.bundle/config \
-  && rm -rf /usr/local/bundle/gems/puppet-7.*.0/spec
+  && rm -rf /usr/local/bundle/gems/puppet-8.*.0/spec
 
 WORKDIR /repo
 
