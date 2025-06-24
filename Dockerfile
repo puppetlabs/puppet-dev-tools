@@ -24,9 +24,11 @@ RUN apt-get install -y apt-utils \
   && apt-get upgrade -y \
   && apt-get install -y --no-install-recommends curl libxml2-dev libxslt1-dev g++ gcc git gnupg2 make openssh-client ruby-dev wget zlib1g-dev libldap-2.4-2 libldap-common libssl-dev openssl cmake pkg-config \
   && wget https://apt.puppet.com/puppet-tools-release-bullseye.deb \
+  && wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
+  && dpkg -i packages-microsoft-prod.deb \
   && dpkg -i puppet-tools-release-bullseye.deb \
   && apt-get update -qq \
-  && apt-get install -y --no-install-recommends pdk=3.4.0.1-1bullseye \
+  && apt-get install -y --no-install-recommends pdk=3.4.0.1-1bullseye powershell \
   && apt-get autoremove -y \
   && rm -rf /var/lib/apt/lists/*
 
