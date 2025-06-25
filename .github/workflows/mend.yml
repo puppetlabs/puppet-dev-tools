@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - puppet8
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,7 +17,7 @@ jobs:
     - name: setup ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.2
     - name: create lock
       run: bundle lock
     # install java
@@ -36,4 +38,4 @@ jobs:
         WS_WSS_URL: https://saas-eu.whitesourcesoftware.com/agent
         WS_USERKEY: ${{ secrets.MEND_TOKEN }}
         WS_PRODUCTNAME: CD4PE
-        WS_PROJECTNAME:  ${{ github.event.repository.name }}
+        WS_PROJECTNAME: puppet-dev-tools-puppet8
