@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - puppet8
+  pull_request:
 
 jobs:
   build:
@@ -40,11 +41,11 @@ jobs:
         WS_PRODUCTNAME: CD4PE
         WS_PROJECTNAME:  ${{ github.event.repository.name }}
     - name: "report vulnerabilities"
-        id: vulnerabilities
-        uses: puppetlabs/get-mend-vulnerabilities@v2
-        with:
-          product_token: ${{ secrets.MEND_PRODUCT_TOKEN }}
-          product_display_name: "CD4PE"
-          user_token: ${{ secrets.MEND_TOKEN }}
-          fail_on_alert: "true"
-          projects: "puppet-dev-tools"
+      id: vulnerabilities
+      uses: puppetlabs/get-mend-vulnerabilities@v2
+      with:
+        product_token: ${{ secrets.MEND_PRODUCT_TOKEN }}
+        product_display_name: "CD4PE"
+        user_token: ${{ secrets.MEND_TOKEN }}
+        fail_on_alert: "true"
+        projects: "puppet-dev-tools"
