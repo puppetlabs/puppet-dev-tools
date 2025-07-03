@@ -44,19 +44,12 @@ docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:puppet8 \
 
 | Command | Description |
 | ------- | ----------- |
-| rake beaker  |  Run beaker acceptance tests |
-| rake beaker:sets  |  List available beaker nodesets |
-| rake beaker:ssh[set,node]  |  Try to use vagrant to login to the Beaker node |
-| rake build  |  Build puppet module package |
-| rake build:pdk  |  Build Puppet module with PDK |
-| rake build:pmt  |  Build Puppet module package with PMT (Puppet < 6.0.0 only) |
 | rake check  |  Run static pre release checks |
 | rake check:dot_underscore  |  Fails if any ._ files are present in directory |
 | rake check:git_ignore  |  Fails if directories contain the files specified in .gitignore |
 | rake check:symlinks  |  Fails if symlinks are present in directory |
 | rake check:test_file  |  Fails if .pp files present in tests folder |
 | rake check_for_spec_tests  |  Get spec test status |
-| rake clean  |  Clean a built module package |
 | rake compute_dev_version  |  Print development version of module |
 | rake generate_fixtures  |  Writes a `fixtures.yml` file based on the Puppetfile / Generate Fixtures files for role/profile |
 | rake generate_spec_tests  |  Generate spec tests for missing classes |
@@ -68,14 +61,18 @@ docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:puppet8 \
 | rake parallel_spec_standalone  |  Parallel spec tests |
 | rake pe_only_mods  |  Show PE Only Modules |
 | rake r10k:dependencies  |  Print outdated forge modules |
+| rake r10k:deprecation  |  Validate that no forge modules are deprecated |
+| rake r10k:diff[branch_a,branch_b]  |  Check for module differences between two branches of a Puppetfile |
 | rake r10k:duplicates  |  Check Puppetfile for duplicates |
 | rake r10k:install  |  Install modules specified in Puppetfile |
+| rake r10k:print_git_conversion  |  Convert and print forge modules to git format |
 | rake r10k:solve_dependencies[allow_major_bump]  |  Find missing or outdated module dependencies |
 | rake r10k:syntax  |  Syntax check Puppetfile |
 | rake r10k:validate  |  Validate the git urls and branches, refs, or tags |
 | rake release_checks  |  Runs all necessary checks on a module in preparation for a release |
 | rake rubocop  |  Run RuboCop |
-| rake rubocop:auto_correct  |  Auto-correct RuboCop offenses |
+| rake rubocop:autocorrect  |  Autocorrect RuboCop offenses (only when it's safe) |
+| rake rubocop:autocorrect_all  |  Autocorrect RuboCop offenses (safe and unsafe) |
 | rake run_tests  |  Run tests |
 | rake spec  |  Run spec tests and clean the fixtures directory if successful |
 | rake spec:simplecov  |  Run spec tests with ruby simplecov code coverage |
@@ -87,7 +84,8 @@ docker run --rm -v $(pwd):/repo puppet/puppet-dev-tools:puppet8 \
 | rake strings:generate[patterns,debug,backtrace,markup,json,markdown,yard_args]  |  Generate Puppet documentation with YARD |
 | rake strings:generate:reference[patterns,debug,backtrace]  |  Generate Puppet Reference documentation |
 | rake strings:gh_pages:update  |  Update docs on the gh-pages branch and push to GitHub |
-| rake syntax  |  Syntax check Puppet manifests and templates |
+| rake strings:validate:reference[patterns,debug,backtrace]  |  Validate the reference is up to date |
+| rake syntax  |  Syntax check for Puppet manifests, templates and Hiera |
 | rake syntax:hiera  |  Syntax check Hiera config files |
 | rake syntax:manifests  |  Syntax check Puppet manifests |
 | rake syntax:templates  |  Syntax check Puppet templates |
